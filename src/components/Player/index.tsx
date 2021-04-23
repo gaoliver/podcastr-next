@@ -7,7 +7,7 @@ import "rc-slider/assets/index.css"
 
 export function Player() {
     const audioRef = useRef<HTMLAudioElement>(null)
-    const { episodeList, currentEpisodeIndex, isPlaying, togglePlay } = useContext(PlayerContext)
+    const { episodeList, currentEpisodeIndex, isPlaying, togglePlay, setPlayingState } = useContext(PlayerContext)
     const episode = episodeList[currentEpisodeIndex]
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export function Player() {
                     <span>00:00</span>
 
                     {episode && (
-                        <audio src={episode.url} autoPlay ref={audioRef} />
+                        <audio src={episode.url} autoPlay ref={audioRef} onPlay={() => setPlayingState(true)} onPause={() => setPlayingState(false)} />
                     )}
                 </div>
 
