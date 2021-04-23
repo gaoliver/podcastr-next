@@ -7,6 +7,8 @@ import { api } from "../services/api"
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString"
 
 import styles from "./home.module.scss"
+import { useContext } from "react"
+import { PlayerContext } from "../contexts/PlayerContext"
 
 interface Episode {
   id: string,
@@ -25,11 +27,13 @@ type HomeProps = {
 }
 
 export default function Home(props: HomeProps) {
+  const player = useContext(PlayerContext)
+  
   return (
     <div className={styles.homePage}>
       {/* Destques */}
       <section className={styles.latestEpisodes}>
-        <h2>Últimos lançamentos</h2>
+        <h2>Últimos lançamentos {player}</h2>
 
         <ul>
           {props.latestEpisodes.map(ep => (
