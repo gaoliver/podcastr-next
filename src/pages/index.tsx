@@ -96,7 +96,7 @@ export default function Home(props: HomeProps) {
                 <td>{ep.publishedAt}</td>
                 <td>{ep.durationAsString}</td>
                 <td>
-                  <button type="button">
+                  <button type="button" onClick={() => play(ep)}>
                     <img src="/play-green.svg" alt="Reproduzir episódio" />
                   </button>
                 </td>
