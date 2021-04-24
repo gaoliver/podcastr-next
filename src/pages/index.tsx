@@ -27,7 +27,9 @@ type HomeProps = {
 }
 
 export default function Home(props: HomeProps) {
-  const { play } = useContext(PlayerContext)
+  const { playList } = useContext(PlayerContext)
+
+  const episodeList = [...props.latestEpisodes, ...props.allEpisodes]
 
   return (
     <div className={styles.homePage}>
@@ -36,26 +38,26 @@ export default function Home(props: HomeProps) {
         <h2>Últimos lançamentos</h2>
 
         <ul>
-          {props.latestEpisodes.map(ep => (
-            <li key={ep.id}>
+          {props.latestEpisodes.map((episode, index) => (
+            <li key={episode.id}>
               <Image
                 width={192}
                 height={192}
-                src={ep.thumbnail}
-                alt={ep.title}
+                src={episode.thumbnail}
+                alt={episode.title}
                 objectFit="cover"
               />
 
               <div className={styles.episodeDetails}>
-                <Link href={`/episodes/${ep.id}`}>
-                  <a>{ep.title}</a>
+                <Link href={`/episodes/${episode.id}`}>
+                  <a>{episode.title}</a>
                 </Link>
-                <p>{ep.members}</p>
-                <span>{ep.publishedAt}</span>
-                <span>{ep.durationAsString}</span>
+                <p>{episode.members}</p>
+                <span>{episode.publishedAt}</span>
+                <span>{episode.durationAsString}</span>
               </div>
 
-              <button type="button" onClick={() => play(ep)}>
+              <button type="button" onClick={() => playList(episodeList, index)}>
                 <img src="/play-green.svg" alt="Reproduzir episódio" />
               </button>
             </li>
@@ -76,27 +78,27 @@ export default function Home(props: HomeProps) {
             <th></th>
           </thead>
           <tbody>
-            {props.allEpisodes.map(ep => (
-              <tr key={ep.id}>
+            {props.allEpisodes.map((episode, index) => (
+              <tr key={episode.id}>
                 <td>
                   <Image
                     width={120}
                     height={120}
-                    src={ep.thumbnail}
-                    alt={ep.title}
+                    src={episode.thumbnail}
+                    alt={episode.title}
                     objectFit="cover"
                   />
                 </td>
                 <td>
-                  <Link href={`/episodes/${ep.id}`}>
-                    <a>{ep.title}</a>
+                  <Link href={`/episodes/${episode.id}`}>
+                    <a>{episode.title}</a>
                   </Link>
                 </td>
-                <td>{ep.members}</td>
-                <td>{ep.publishedAt}</td>
-                <td>{ep.durationAsString}</td>
+                <td>{episode.members}</td>
+                <td>{episode.publishedAt}</td>
+                <td>{episode.durationAsString}</td>
                 <td>
-                  <button type="button" onClick={() => play(ep)}>
+                  <button type="button" onClick={() => playList(episodeList, index + props.latestEpisodes.length)}>
                     <img src="/play-green.svg" alt="Reproduzir episódio" />
                   </button>
                 </td>
@@ -120,17 +122,17 @@ export const getStaticProps: GetStaticProps = async () => {       /// Static Sit
     }
   })
 
-  const episodes = data.map((ep) => {
+  const episodes = data.map((episode) => {
     return {
-      id: ep.id,
-      title: ep.title,
-      thumbnail: ep.thumbnail,
-      members: ep.members,
-      publishedAt: format(parseISO(ep.published_at), "d MMM yy", { locale: ptBR }),
-      duration: Number(ep.file.duration),
-      durationAsString: convertDurationToTimeString(Number(ep.file.duration)),
-      description: ep.description,
-      url: ep.file.url
+      id: episode.id,
+      title: episode.title,
+      thumbnail: episode.thumbnail,
+      members: episode.members,
+      publishedAt: format(parseISO(episode.published_at), "d MMM yy", { locale: ptBR }),
+      duration: Number(episode.file.duration),
+      durationAsString: convertDurationToTimeString(Number(episode.file.duration)),
+      description: episode.description,
+      url: episode.file.url
     }
   })
 
