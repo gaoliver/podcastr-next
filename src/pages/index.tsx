@@ -29,7 +29,7 @@ type HomeProps = {
 export default function Home(props: HomeProps) {
   const { playList } = usePlayer()
 
-  const episodeList = [...props.latestEpisodes, ...props.allEpisodes]
+  const episodeList = [...props.allEpisodes]
 
   return (
     <div className={styles.homePage}>
