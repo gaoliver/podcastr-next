@@ -7,8 +7,7 @@ import { api } from "../services/api"
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString"
 
 import styles from "./home.module.scss"
-import { useContext } from "react"
-import { PlayerContext } from "../contexts/PlayerContext"
+import { usePlayer } from "../contexts/PlayerContext"
 
 interface Episode {
   id: string,
@@ -27,7 +26,7 @@ type HomeProps = {
 }
 
 export default function Home(props: HomeProps) {
-  const { playList } = useContext(PlayerContext)
+  const { playList } = usePlayer()
 
   const episodeList = [...props.latestEpisodes, ...props.allEpisodes]
 

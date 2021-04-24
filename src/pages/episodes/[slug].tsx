@@ -8,6 +8,7 @@ import { useRouter } from "next/router"
 import { GetStaticPaths, GetStaticProps } from "next"
 
 import styles from "./episode.module.scss"
+import { usePlayer } from "../../contexts/PlayerContext"
 
 type Episode = {
     id: string,
@@ -25,6 +26,8 @@ type EpisodeProps = {
 }
 
 export default function Episode(props: EpisodeProps) {
+    const { play } = usePlayer()
+
     return (
         <div className={styles.container}>
             <div className={styles.episode}>
@@ -35,7 +38,7 @@ export default function Episode(props: EpisodeProps) {
                         </button>
                     </Link>
                     <Image width={700} height={160} src={props.episode.thumbnail} objectFit="cover" />
-                    <button type="button">
+                    <button type="button" onClick={() => play(props.episode)}>
                         <img src="/play.svg" alt="Reproduzir episódio" />
                     </button>
                 </div>
